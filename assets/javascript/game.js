@@ -17,34 +17,48 @@ console.log(randomWord);
 
 // declare variables
 var wins = 0;
-var guessesRemaining = randomWordNoSpace.length;
+var losses = 0;
+var initialNumberOfGuesses = randomWordNoSpace.length;
+var correctWord = []
+var guessedKey = "";
 
-console.log(guessesRemaining)
+console.log(initialNumberOfGuesses)
 
 // maybe use the push keyword to push guessed letters to the screen once they're guessed
 
-document.getElementById("word-placeholder").innerHTML = randomWord;
+// document.getElementById("word-placeholder").innerHTML = randomWord;
 
 // letters that have been guessed for a certain word have to be disabled throughout that game
 // these guessed words have to fill up an individual space on the screen and cannot be overwritten by the next guess
 document.onkeyup = function (event) {
 
-    var guessedKey = event.key;
+    guessedKey = guessedKey + event.key + " - ";
+    // make it lowercase
 
-    document.getElementById("already-guessed").innerHTML = guessedKey;
+    // var correctWord = correctWord +  event.key;
 
-    for (i = 0; i < finalWord.length; i++) {
+    
+
+    document.getElementById("incorrectly-guessed").textContent = guessedKey;
+
+    // index of > -1 if letter found in array of characters
+    // correctWord[i]=guessedkey;
+
+    for ( var i = 0; i < finalWord.length; i++) {
         
 
-    if (finalWord[i] === guessedKey) {
-        console.log("true");
+    if (finalWord[i] === event.key) {
+        console.log(event.key);
     
     }
 
-    else {
-        console.log("you suck")
+    if (finalWord[i] !== event.key ) {
+        console.log(guessesRemaining);
+        var guessesRemaining = initialNumberOfGuesses-4;
+        document.getElementById("guesses-remaining").textContent = guessesRemaining;
         }
     }
+    
     
 }
 
@@ -55,10 +69,15 @@ document.onkeyup = function (event) {
 
 // letter strokes on keyboard can be tracked by onkey or eventlistener?
 
-// incorrect and correctly guessed letters will de displayed on screen
+// only incorrect  guessed letters will de displayed on screen under "guessed letters"
 
-// every incorrectly guessed word will deduct from the number of guesses remaining
+// correctly guessed letters will be displayed in the space of the random word
+
+// every incorrectly guessed letter will deduct from the number of guesses remaining
 
 
 // once word is guessed correctly, game will restart with a new word but keep track of the wins
 
+// onload even loads the word and preserves it
+
+// init function intializes something when it is over (in this case the random word will be reset)

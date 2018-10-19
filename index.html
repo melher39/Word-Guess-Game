@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,35 +11,58 @@
     <!-- Link to my custom CSS to overwrite any specific changes -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
+
 <body>
-    <!-- This will be a Seinfeld Themed game -->
+    <!-- This will be a Seinfeld themed game -->
 
-    <h1>SEINFELD!</h1>
+    <div id="seinfeld-game">
 
-    <h2>The Guessing Game</h2>
+        <h1 class="title">SEINFELD!</h1>
 
-    <h3>Press any key to get started</h3>
+        <h2>The Guessing Game</h2>
 
-    <!-- very rough outline of how the game will function -->
-    <ul>
-        <li>Wins:</li>
-        <br>
-        <li id="word-placeholder">_ _ _ _ _ _ _ </li>
-        <br>
-        <li>Number of Guesses Remaining</li>
-        <br>
-        <li>Letters Already Guessed:
-            <div id="already-guessed"></div>
-        </li>
+        <h3>Press any key to get started</h3>
 
-    </ul>
-    
+        <!-- rough outline of how the game will function -->
+        <ul>
+            <li>
+                <h3 class="subtitle">Wins:</h3>
+                <div id="winsCounter"></div>
+            </li>
+
+            <li>
+                <h3 class="subtitle">Losses:</h3>
+                <div id="lossesCounter"></div>
+            </li>
+
+            <li id="word-placeholder-section">
+                <h3 class="subtitle">Word placeholder</h3>
+                <div id="word-placeholder"></div>
+                <div id="word-placeholder-underline"></div>
+            </li>
+
+            <li id="guesses-remaining-section">
+                <h3 class="subtitle">Number of Guesses Remaining</h3>
+                <div id="guesses-remaining"></div>
+            </li>
+
+
+            <li id="incorrectly-guessed-section">
+                <h3 class="subtitle">Letters Already Guessed:</h3>
+                <div id="incorrectly-guessed"></div>
+            </li>
+
+        </ul>
+
+    </div>
 
 
 
 
 
 
+    <!-- Link to my javascript file -->
     <script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
+
 </html>
