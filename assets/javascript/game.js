@@ -1,98 +1,146 @@
-// I have to set random words that will be used as the ones being guessed by the user
-// these can possibly be stored in an array and called upon at random
-
+// the words the user will have to guess and these will be randomized later in the game
 var seinLanguage = ["jerry", "kramer", "george", "elaine", "new york", "soup nazi", "assman", "junior mints", "puffy shirt", "newman"];
 
-// randomize the selection from seinLanguage
-// var randomWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)];
-
-// eliminate the spaces in between words for when taking into account the number of guesses the user has left
-// var finalWord= randomWord.replace(/ +/g, "");
-// var finalWord = randomWordNoSpace.toLowerCase();
-
-// console.log(finalWord);
-
-// testing link between html and js 
-// console.log(randomWord);
+var initialNumberOfGuesses = 8;//predefined number of guesses player will have before losing
+var finalWord = ""; //this has the computer randomized correct word until the user guesses it
+var incorrectGuessedKey = ""; //this stores the wrong guessed letters the player types
+var correctGuessedKey = []; //this saves the correct guessed letters the player types
+var guessedKey = ""; //this stores any key typed by the user
 
 // declare an object for for the propery values and methods needed to play this Seinfeld game
 
 var seinfeldGame = {
     wins: 0, //starts at 0 but will increase as the user plays if they win a round
     losses: 0, //starts at 0 but will increase as the user plays if they lose a round
-    initialNumberOfGuesses: finalWord.length, //number of guesses will always equal to the number of characters in the computer randomized word, the shorter the word, the less tries the user will be given
-    finalWord: "", //this has the computer randomized correct word until the user guesses it
-    incorrectGuessedKey: "", //ths stores the wrong guessed letters the player types
-    correctGuessedKey: [], //this saves the correct guessed letters the player types
     underlines: [], //this will store the underlines to be used as the player is guessing the computer randomized word
-    guessedKey: "", //this stores any key typed by the user
 
     // this will show the underlines in place of the finalWord
     showUnderlineForCorrectGuessedKey: function () {
-        for (var i=0; i < this.finalWord.length; i++) {
-            this.correctGuessedKey[i] = this.correctGuessedKey[i] + " ";
-            this.underlines = this.underlines + "_";
+        for (var i = 0; i < finalWord.length; i++) {
+            correctGuessedKey[i] = " _ ";
+            // this.underlines = this.underlines + "_";
         }
-    }, 
-    // function will keep track of the number of wins
-    winsCounter: function() {
-        var counter = 1; //keeps track of the correct number of guessed letters
-        for (var i=0; i < finalWord.length; i++) {
-            if (this.correctGuessedKey[i].indexOf(" " === -1)) {
-                counter++;
-            }
-            if (counter === this.finalWord.length) {
-                this.wins++;
-                this.gameReset();
-            }
-
-
-        }
-
     },
-    //function will keep track of the number of losses
-    lossesCounter: function() {
-        if (this.initialNumberOfGuesses === 0) {
+
+    // function will keep track of the number of wins
+    winsCounter: function () {
+        // converts correctGuessedKey array to string to compare
+        var stringConvert = "";
+        for (var i = 0; i < finalWord.length; i++) {
+            stringConvert = stringConvert + correctGuessedKey[i];
+        }
+        // if the var stringConvert is equal to the finalWord, then user has won, wins will increase by 1
+        // and game will reset
+        if (stringConvert === finalWord) {
+            alert("You won! :)");
+            this.wins++;
+            this.gameReset();
+        }
+    },
+
+    //function will keep track of the number of losses and reset the game if user loses
+    lossesCounter: function () {
+        if (initialNumberOfGuesses === 0) {
+            alert("You Lost! :( Try again");
             this.losses++;
             this.gameReset();
         }
     },
 
+    allLetter: function (inputtxt) {
+
+        var letters = /^[A-Za-z]+$/;
+        if (inputtxt.match(letters)) {
+            return true;
+        }
+        else {
+
+            return false;
+        }
+    },
+
     //function will reset the game once the player loses or wins, but will not reset the score of losses or wins
-    gameReset: function() {
-        this.initialNumberOfGuesses = finalWord.length;
-        // this.finalWord = "";
-        this.incorrectGuessedKey = "";
-        this.correctGuessedKey = [];
-        this.underlines = [];
-        this.guessedKey = "";
+    gameReset: function () {
+        initialNumberOfGuesses = 8;
+        finalWord = "";
+        incorrectGuessedKey = "";
+        correctGuessedKey = [];
+        // underlines = [];
+        guessedKey = "";
         this.showUnderlineForCorrectGuessedKey();
 
         // randomize the selection from seinLanguage
-        var randomWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)];
+        var randomWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)].toLowerCase();
 
         // eliminate the spaces in between words for when taking into account the number of guesses the user has left
-        this.finalWord= randomWord.replace(/ +/g, "");
+        finalWord = randomWord.replace(/ +/g, "");
     },
     //check to see if the user guessed letter matches with one in the finalWord
-    compareGuessedKeyToFinalWord: function() {
-        for (var i=0; i<this.finalWord.length; i++){
-            if(this.finalWord.indexOf(this.guessedKey > -1)) {
-                this.correctGuessedKey[this.guessedKey];
+    compareGuessedKeyToFinalWord: function () {
+
+        var letterFound = false;
+
+        for (var i = 0; i < finalWord.length; i++) {
+            if (finalWord[i].indexOf(guessedKey) > -1) {
+                correctGuessedKey[guessedKey];
+                letterFound = true;
             }
-            else{
-                this.incorrectGuessedKey = this.incorrectGuessedKey + this.guessedKey + " ";
-                this.initialNumberOfGuesses--;
-            }
+
         }
+
+        if (letterFound == false && incorrectGuessedKey.indexOf(guessedKey) === -1) {
+            incorrectGuessedKey = incorrectGuessedKey + guessedKey + " ";
+            initialNumberOfGuesses--;
+        }
+
+
+    },
+
+    // items to be changed once game has begun
+    display: function () {
+
+        // if the key press is a correct letter, then it will display in the word-placeholder div along with the underlines
+        document.getElementById("word-placeholder").textContent = correctGuessedKey;
+        document.getElementById("word-placeholder-underline").textContent = this.underlines;
+
+        // the number of guesses remaining will decrease and show if the wrong letter is pressed
+        document.getElementById("guesses-remaining").textContent = initialNumberOfGuesses;
+
+        // the incorrectly guessed letters will be displayed for the player to see
+        document.getElementById("incorrectly-guessed").textContent = incorrectGuessedKey;
+
+        // every time a letter is pressed, check for wins and losses and display them in their respective div 
+        this.winsCounter();
+        document.getElementById("wins-counter").textContent = this.wins;
+
+        this.lossesCounter();
+        document.getElementById("losses-counter").textContent = this.losses;
+    },
+
+    // once game begins...
+    playSeinfeldGame: function () {
+
+        // start comparing pressed key to this.finalWord
+        this.compareGuessedKeyToFinalWord();
+
+        this.display();
+
     }
-
-
-     
-
 };
 
-console.log(seinfeldGame.initialNumberOfGuesses)
+// setup of the game
+function setupGame() {
+    // randomize the selection from seinLanguage
+    var randomWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)].toLowerCase();
+    // eliminate the spaces in between words for when taking into account the number of guesses the user has left
+    finalWord = randomWord.replace(/ +/g, "");
+    console.log(finalWord);
+
+    // seinfeldGame.finalWord = finalWord;
+    seinfeldGame.showUnderlineForCorrectGuessedKey();
+}
+
+// console.log(seinfeldGame.initialNumberOfGuesses)
 
 // maybe use the push keyword to push guessed letters to the screen once they're guessed
 
@@ -101,36 +149,52 @@ console.log(seinfeldGame.initialNumberOfGuesses)
 // letters that have been guessed for a certain word have to be disabled throughout that game
 // these guessed words have to fill up an individual space on the screen and cannot be overwritten by the next guess
 document.onkeyup = function (event) {
+    // once key is pressed, record it and make it lowercase
+    var letter = event.key.toLowerCase();
 
-    guessedKey = guessedKey + event.key + " - ";
-    // make it lowercase
+    // if pressed key is alphabetical then assign it to guessedKey and continue game
+    if (seinfeldGame.allLetter(letter)) {
+        guessedKey = letter;
+        seinfeldGame.playSeinfeldGame();
+    }
+
+    // if not then alert to try again
+    else {
+        alert("Invalid Entry! Letters only. Try again.")
+    }
+    // seinfeldGame.playSeinfeldGame();
+}
+
+
+
+
 
     // var correctWord = correctWord +  event.key;
 
-    
 
-    document.getElementById("incorrectly-guessed").textContent = guessedKey;
+
+    // document.getElementById("incorrectly-guessed").textContent = guessedKey;
 
     // index of > -1 if letter found in array of characters
     // correctWord[i]=guessedkey;
 
-    for ( var i = 0; i < finalWord.length; i++) {
-        
+    // for ( var i = 0; i < finalWord.length; i++) {
 
-    if (finalWord[i] === event.key) {
-        console.log(event.key);
-    
-    }
 
-    if (finalWord[i] !== event.key ) {
-        console.log(guessesRemaining);
-        var guessesRemaining = initialNumberOfGuesses-4;
-        document.getElementById("guesses-remaining").textContent = guessesRemaining;
-        }
-    }
-    
-    
-}
+    // if (finalWord[i] === event.key) {
+    //     console.log(event.key);
+
+    // }
+
+    // if (finalWord[i] !== event.key ) {
+    //     console.log(guessesRemaining);
+    //     var guessesRemaining = initialNumberOfGuesses-4;
+    //     document.getElementById("guesses-remaining").textContent = guessesRemaining;
+    //     }
+    // }
+
+
+
 
 // if else statement to compare user input and selected word and compare the letters within the strings...
 
@@ -148,6 +212,6 @@ document.onkeyup = function (event) {
 
 // once word is guessed correctly, game will restart with a new word but keep track of the wins
 
-// onload even loads the word and preserves it
+// onload event loads the word and preserves it
 
 // init function intializes something when it is over (in this case the random word will be reset)

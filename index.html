@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
-<body>
+<body onload="setupGame()">
     <!-- This will be a Seinfeld themed game -->
 
     <div id="seinfeld-game">
@@ -27,12 +27,12 @@
         <ul>
             <li>
                 <h3 class="subtitle">Wins:</h3>
-                <div id="winsCounter"></div>
+                <div id="wins-counter"></div>
             </li>
 
             <li>
                 <h3 class="subtitle">Losses:</h3>
-                <div id="lossesCounter"></div>
+                <div id="losses-counter"></div>
             </li>
 
             <li id="word-placeholder-section">
