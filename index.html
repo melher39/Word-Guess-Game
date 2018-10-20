@@ -3,57 +3,78 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Word Guess Game</title>
     <!-- Bootstrap link will go here -->
-
-    <!-- Link to my custom CSS to overwrite any specific changes -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <!-- Link to my custom CSS -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <!-- when loading the page, the body tag will call the setupGame() -->
+
 <body onload="setupGame()">
     <!-- This will be a Seinfeld themed game -->
 
-    <div id="seinfeld-game">
+    <div class="container" id="seinfeld-game">
 
-        <h1 class="title">SEINFELD!</h1>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <img src="assets/images/Seinfeld_logo.png" alt="seinfeld-logo" class="img-fluid" width="60%" />
+            </div>
+        </div>
 
-        <h2>The Guessing Game</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center text-danger">The Guessing Game</h1>
+            </div>
+        </div>
 
-        <h3>Press any key to get started</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center text-warning">Press any key to get started</h3>
+            </div>
+        </div>
 
-        <!-- rough outline of how the game will function -->
-        <ul>
-            <li>
-                <h3 class="subtitle">Wins:</h3>
-                <div id="wins-counter"></div>
-            </li>
+        <br>
 
-            <li>
-                <h3 class="subtitle">Losses:</h3>
+        <!-- outline of how the game will function -->
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <h4 class="subtitle">Wins</h4>
+                <div id="wins-counter" ></div>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <h4 class="subtitle">Losses</h4>
                 <div id="losses-counter"></div>
-            </li>
+            </div>
+        </div>
 
-            <li id="word-placeholder-section">
-                <h3 class="subtitle">Word placeholder</h3>
-                <div id="word-placeholder"></div>
-                <!-- <div id="word-placeholder-underline"></div> -->
-            </li>
+        <br>
 
-            <li id="guesses-remaining-section">
-                <h3 class="subtitle">Number of Guesses Remaining</h3>
+        <div class="row" id="guesses-remaining-section">
+            <div class="col-md-6 text-center">
+                <h4 class="subtitle"># of Guesses Remaining</h4>
                 <div id="guesses-remaining"></div>
-            </li>
+            </div>
 
-
-            <li id="incorrectly-guessed-section">
-                <h3 class="subtitle">Letters Already Guessed:</h3>
+            <div class="col-md-6 text-center" id="incorrectly-guessed-section">
+                <h4 class="subtitle">Letters Already Guesses</h4>
                 <div id="incorrectly-guessed"></div>
-            </li>
+            </div>
+        </div>
 
-        </ul>
+        <br>
+
+        <div class="row" id="word-placeholder-section">
+            <div class="col-md-12 text-center">
+                <h4 class="subtitle">Guess the word</h4>
+                <div id="word-placeholder"></div>
+            </div>
+        </div>
 
     </div>
 
@@ -64,6 +85,8 @@
 
     <!-- Link to my javascript file -->
     <script type="text/javascript" src="assets/javascript/game.js"></script>
+    <!-- Link to Bootstrap javascript not needed for this page -->
+    
 </body>
 
 </html>

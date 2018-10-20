@@ -1,0 +1,7 @@
+/* place this image as the background */
+/* image will not get in the way when vieport is resized */
+body {
+    background-image: url("../images/seinfeld-bg.jpg");
+    background-position: center;
+    background-size: cover;
+}
