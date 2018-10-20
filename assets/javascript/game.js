@@ -1,13 +1,18 @@
+//global variables set
 // the words the user will have to guess and these will be randomized later in the game
-var seinLanguage = ["jerry", "kramer", "george", "elaine", "new york", "soup nazi", "assman", "junior mints", "puffy shirt", "newman"];
+var seinLanguage = ["Jerry", "Kramer", "George", "Elaine", "Seinfeld", "Festivus", "Assman", "Cosmo", "Costanza", "Newman"];
+//predefined number of guesses player will have before losing
+var initialNumberOfGuesses = 10;
+//this has the computer randomized correct word until the user guesses it
+var finalWord = "";
+//this stores the wrong guessed letters the player types
+var incorrectGuessedKey = "";
+//this saves the correct guessed letters the player types
+var correctGuessedKey = [];
+//this stores any key typed by the user
+var guessedKey = "";
 
-var initialNumberOfGuesses = 8;//predefined number of guesses player will have before losing
-var finalWord = ""; //this has the computer randomized correct word until the user guesses it
-var incorrectGuessedKey = ""; //this stores the wrong guessed letters the player types
-var correctGuessedKey = []; //this saves the correct guessed letters the player types
-var guessedKey = ""; //this stores any key typed by the user
-
-// declare an object for for the propery values and methods needed to play this Seinfeld game
+// declare an object for the propery values and methods needed to play this Seinfeld game
 var seinfeldGame = {
     wins: 0, //starts at 0 but will increase as the user plays if they win a round
     losses: 0, //starts at 0 but will increase as the user plays if they lose a round
@@ -16,27 +21,26 @@ var seinfeldGame = {
     showUnderlineForCorrectGuessedKey: function () {
         for (var i = 0; i < finalWord.length; i++) {
             correctGuessedKey[i] = " _ ";
-            // this.underlines = this.underlines + "_";
         }
     },
 
     // function will keep track of the number of wins
     winsCounter: function () {
-        // converts correctGuessedKey array to string to compare
+        // converts correctGuessedKey array to string so it can be read as a complete word to compare to the final word the computer randomized
         var stringConvert = "";
         for (var i = 0; i < finalWord.length; i++) {
             stringConvert = stringConvert + correctGuessedKey[i];
         }
-        // if the var stringConvert is equal to the finalWord, then user has won, wins will increase by 1
+        // if the complete word stringConvert is equal to the finalWord, then user has won, wins will increase by 1
         // and game will reset
         if (stringConvert === finalWord) {
-            alert("You won! :)");
+            alert("Yep! It's " + finalWord + "!\nYou won! :)");
             this.wins++;
             this.gameReset();
         }
     },
 
-    //function will keep track of the number of losses and reset the game if user loses
+    // function will keep track of the number of losses and reset the game if user loses by running out of guesses
     lossesCounter: function () {
         if (initialNumberOfGuesses === 0) {
             alert("You Lost! :( Try again");
@@ -60,49 +64,49 @@ var seinfeldGame = {
 
     //function will reset the game once the player loses or wins, but will not reset the score of losses or wins
     gameReset: function () {
-        initialNumberOfGuesses = 8;
+        initialNumberOfGuesses = 10;
         finalWord = "";
         incorrectGuessedKey = "";
         correctGuessedKey = [];
         guessedKey = "";
-        
+
         // randomize the selection from seinLanguage and make it lowercase
-        var randomWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)].toLowerCase();
+        finalWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)].toLowerCase();
 
-        // eliminate the spaces in between words for when taking into account the number of guesses the user has left
-        finalWord = randomWord.replace(/ +/g, "");
-
+        // underlines will show up blank again
         this.showUnderlineForCorrectGuessedKey();
     },
 
     //check to see if the user guessed letter matches with one in the finalWord by its index
     compareGuessedKeyToFinalWord: function () {
 
+        // initial condition if letter has been found set to false
         var letterFound = false;
 
+        // if guessedKey is found in the array of string characters in the finalWord, change var letterFound to true and assign the guessedKey to the correctGuessedKey array
         for (var i = 0; i < finalWord.length; i++) {
             if (finalWord[i].indexOf(guessedKey) > -1) {
-                correctGuessedKey[i]= guessedKey;
+                correctGuessedKey[i] = guessedKey;
                 letterFound = true;
             }
 
         }
 
+        // only if var letterFound is false and guessedKey is not found in the incorrectly guessed key list,
+        //  then add it with space in between and decrease the number of guesses remaining
+        // this limits duplicate letters as input
         if (letterFound == false && incorrectGuessedKey.indexOf(guessedKey) === -1) {
             incorrectGuessedKey = incorrectGuessedKey + guessedKey + " ";
             initialNumberOfGuesses--;
         }
-        
-
 
     },
 
-    // items to be changed once game has begun
-    display: function () {
+    // items to be changed on screen as game progresses
+    screen: function () {
 
         // if the key press is a correct letter, then it will display in the word-placeholder div along with the underlines
         document.getElementById("word-placeholder").textContent = correctGuessedKey.join("");
-        // document.getElementById("word-placeholder-underline").textContent = this.underlines;
 
         // the number of guesses remaining will decrease and show if the wrong letter is pressed
         document.getElementById("guesses-remaining").textContent = initialNumberOfGuesses;
@@ -124,27 +128,24 @@ var seinfeldGame = {
         // start comparing pressed key to this.finalWord
         this.compareGuessedKeyToFinalWord();
 
-        this.display();
+        //start the on screen changes
+        this.screen();
 
     }
 };
 
-// setup of the game
+// setup of the game to be loaded by html
 function setupGame() {
     // randomize the selection from seinLanguage
-    var randomWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)].toLowerCase();
-    // eliminate the spaces in between words for when taking into account the number of guesses the user has left
-    finalWord = randomWord.replace(/ +/g, "");
-    console.log(finalWord);
+    finalWord = seinLanguage[Math.floor(Math.random() * seinLanguage.length)].toLowerCase();
 
-    // seinfeldGame.finalWord = finalWord;
+    //make sure underlines show up blank
     seinfeldGame.showUnderlineForCorrectGuessedKey();
 }
 
-// letters that have been guessed for a certain word have to be disabled throughout that game
-// these guessed words have to fill up an individual space on the screen and cannot be overwritten by the next guess
+// once user types a key...
 document.onkeyup = function (event) {
-    // once key is pressed, record it and make it lowercase
+    // record key and make it lowercase
     var letter = event.key.toLowerCase();
 
     // if pressed key is alphabetical then assign it to guessedKey and continue game
@@ -157,5 +158,4 @@ document.onkeyup = function (event) {
     else {
         alert("Invalid Entry! Letters only. Try again.")
     }
-    // seinfeldGame.playSeinfeldGame();
 }
