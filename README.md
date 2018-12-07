@@ -12,3 +12,5 @@ Once you guess the entire word, you will be congratulated with a message and the
 You can continue for as long you'd like.
 
 Try to beat my high score of 100 ;)
+
+Check it out here: https://melher39.github.io/Word-Guess-Game/
